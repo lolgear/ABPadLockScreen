@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		046C4DDE1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046C4DDD1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m */; };
 		9C79B0D8188A184A00D465D8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C79B0D7188A184A00D465D8 /* Foundation.framework */; };
 		9C79B0DA188A184A00D465D8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C79B0D9188A184A00D465D8 /* CoreGraphics.framework */; };
 		9C79B0DC188A184A00D465D8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C79B0DB188A184A00D465D8 /* UIKit.framework */; };
@@ -45,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		046C4DDC1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPadLockScreenChangeOldViewController.h; sourceTree = "<group>"; };
+		046C4DDD1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABPadLockScreenChangeOldViewController.m; sourceTree = "<group>"; };
 		9C79B0D4188A184A00D465D8 /* ABPadLockScreenDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABPadLockScreenDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C79B0D7188A184A00D465D8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9C79B0D9188A184A00D465D8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -226,6 +229,8 @@
 				9CC50D28188A797400DBC969 /* ABPadLockScreenViewController.m */,
 				9CC50D34188A7C2100DBC969 /* ABPadLockScreenAbstractViewController.h */,
 				9CC50D35188A7C2100DBC969 /* ABPadLockScreenAbstractViewController.m */,
+				046C4DDC1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.h */,
+				046C4DDD1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -346,6 +351,7 @@
 				9C79B10C188A18A100D465D8 /* ABPadLockScreenAppDelegate.m in Sources */,
 				9CC50D2B188A797400DBC969 /* ABPadButton.m in Sources */,
 				9CC50D2F188A797400DBC969 /* ABPinSelectionView.m in Sources */,
+				046C4DDE1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m in Sources */,
 				9CC50D2E188A797400DBC969 /* ABPadLockScreenViewController.m in Sources */,
 				9C79B0E4188A184A00D465D8 /* main.m in Sources */,
 				9CC50D1D188A73D100DBC969 /* UIColor+HexValue.m in Sources */,

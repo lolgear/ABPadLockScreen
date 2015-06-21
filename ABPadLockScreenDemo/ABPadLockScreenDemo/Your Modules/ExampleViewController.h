@@ -8,6 +8,7 @@
 
 #import "ABPadLockScreenViewController.h"
 #import "ABPadLockScreenSetupViewController.h"
+#import "ABPadLockScreenChangeOldViewController.h"
 
 @interface ExampleViewController : UIViewController <ABPadLockScreenViewControllerDelegate, ABPadLockScreenSetupViewControllerDelegate>
 
