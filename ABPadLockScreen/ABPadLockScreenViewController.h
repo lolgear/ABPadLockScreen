@@ -29,8 +29,8 @@
  
  You are responsible for storing the pin securely (use the keychain or some other form of secure storage, DO NOT STORE IN PLAINTEXT. If you need the user to set a pin, please use ABPadLockScreenSetupViewController
  */
-@class ABPadLockScreenViewController;
-@protocol ABPadLockScreenViewControllerDelegate;
+
+#import "ABPadLockScreenViewControllerDelegate.h"
 
 @interface ABPadLockScreenViewController : ABPadLockScreenAbstractViewController
 
@@ -45,36 +45,5 @@
 - (void)setLockedOutText:(NSString *)title;
 - (void)setPluralAttemptsLeftText:(NSString *)title;
 - (void)setSingleAttemptLeftText:(NSString *)title;
-
-@end
-
-@protocol ABPadLockScreenViewControllerDelegate <ABPadLockScreenDelegate>
-@required
-
-/**
- Called when pin validation is needed
- */
-- (BOOL)padLockScreenViewController:(ABPadLockScreenViewController *)padLockScreenViewController validatePin:(NSString*)pin;
-
-/**
- Called when the unlock was completed successfully
- */
-- (void)unlockWasSuccessfulForPadLockScreenViewController:(ABPadLockScreenViewController *)padLockScreenViewController;
-
-/**
- Called when an unlock was unsuccessfully, providing the entry code and the attempt number
- */
-- (void)unlockWasUnsuccessful:(NSString *)falsePin afterAttemptNumber:(NSInteger)attemptNumber padLockScreenViewController:(ABPadLockScreenViewController *)padLockScreenViewController;
-
-/**
- Called when the user cancels the unlock
- */
-- (void)unlockWasCancelledForPadLockScreenViewController:(ABPadLockScreenViewController *)padLockScreenViewController;
-
-@optional
-/**
- Called when the user has expired their attempts
- */
-- (void)attemptsExpiredForPadLockScreenViewController:(ABPadLockScreenViewController *)padLockScreenViewController;
 
 @end

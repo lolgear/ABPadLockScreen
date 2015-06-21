@@ -13,7 +13,16 @@
 
 #define lockScreenView ((ABPadLockScreenView *) [self view])
 
-@interface ABPadLockScreenChangeOldViewController ()
+@interface ABPadLockScreenChangeOldViewController () {
+    struct {
+        NSUInteger validatePin : 1;
+        NSUInteger unlockWasSuccessful : 1;
+        NSUInteger unlockWasUnsuccessfulAfterAttemptNumber : 1;
+        NSUInteger unlockWasCancelled : 1;
+        NSUInteger attemptsExpired : 1;
+        NSUInteger pinSet : 1;
+    }_delegateFlags;
+}
 
 @property (nonatomic, strong) NSString *oldPin;
 @property (nonatomic, strong) NSString *enteredOldPin;

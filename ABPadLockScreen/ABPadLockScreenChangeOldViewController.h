@@ -7,9 +7,10 @@
 //
 
 #import "ABPadLockScreenAbstractViewController.h"
+#import "ABPadLockScreenChangeOldViewControllerDelegate.h"
 
 @interface ABPadLockScreenChangeOldViewController : ABPadLockScreenAbstractViewController
-@property (nonatomic, weak, readonly) id<ABPadLockScreenDelegate> lockScreenDelegate;
+@property (nonatomic, weak, readonly) id<ABPadLockScreenChangeOldViewControllerDelegate> lockScreenDelegate;
 @property (nonatomic, strong, readonly) NSString *subtitleLabelText;
 @property (nonatomic, strong) NSString *oldPinPromptText;
 @property (nonatomic, strong) NSString *futurePinPromptText;
@@ -26,9 +27,9 @@
 - (void)setPluralAttemptsLeftText:(NSString *)title;
 - (void)setSingleAttemptLeftText:(NSString *)title;
 
-- (instancetype)initWithDelegate:(id<ABPadLockScreenDelegate>)delegate;
-- (instancetype)initWithDelegate:(id<ABPadLockScreenDelegate>)delegate complexPin:(BOOL)complexPin;
-- (instancetype)initWithDelegate:(id<ABPadLockScreenDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText;
-- (instancetype)initWithDelegate:(id<ABPadLockScreenDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText oldPin:(NSString *)oldPin;
+- (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate complexPin:(BOOL)complexPin;
+- (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText;
+- (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText oldPin:(NSString *)oldPin;
 
 @end

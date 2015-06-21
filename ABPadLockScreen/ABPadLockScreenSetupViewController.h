@@ -27,9 +27,8 @@
  This class will not store the pin for you, you are responsible for taking the pin and saving it SECURELY to later be compared with values from ABPadLockScreenViewController
  */
 #import "ABPadLockScreenAbstractViewController.h"
-
+#import "ABPadLockScreenSetupViewControllerDelegate.h"
 @class ABPadLockScreenSetupViewController;
-@protocol ABPadLockScreenSetupViewControllerDelegate;
 
 @interface ABPadLockScreenSetupViewController : ABPadLockScreenAbstractViewController
 
@@ -41,11 +40,5 @@
 - (instancetype)initWithDelegate:(id<ABPadLockScreenSetupViewControllerDelegate>)delegate;
 - (instancetype)initWithDelegate:(id<ABPadLockScreenSetupViewControllerDelegate>)delegate complexPin:(BOOL)complexPin;
 - (instancetype)initWithDelegate:(id<ABPadLockScreenSetupViewControllerDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText;
-
-@end
-
-@protocol ABPadLockScreenSetupViewControllerDelegate <ABPadLockScreenDelegate>
-@required
-- (void)pinSet:(NSString *)pin padLockScreenSetupViewController:(ABPadLockScreenSetupViewController *)padLockScreenViewController;
 
 @end

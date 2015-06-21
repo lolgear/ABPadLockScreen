@@ -24,7 +24,7 @@
  Abstract Class that encapsulates common functionality between the lock and setup screen. It is not designed to be used directly
  */
 
-@protocol ABPadLockScreenDelegate;
+#import "ABPadLockScreenDelegate.h"
 @class ABPadLockScreenView;
 
 @interface ABPadLockScreenAbstractViewController : UIViewController
@@ -54,11 +54,5 @@
 - (void)setBackgroundView:(UIView*)backgroundView;
 
 - (void)processPin; //Called when the pin has reached maximum digits
-
-@end
-
-@protocol ABPadLockScreenDelegate <NSObject>
-@required
-- (void)unlockWasCancelledForPadLockScreenViewController:(ABPadLockScreenAbstractViewController *)padLockScreenViewController;
 
 @end

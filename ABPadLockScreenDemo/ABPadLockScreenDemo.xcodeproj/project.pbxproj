@@ -48,6 +48,10 @@
 /* Begin PBXFileReference section */
 		046C4DDC1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPadLockScreenChangeOldViewController.h; sourceTree = "<group>"; };
 		046C4DDD1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABPadLockScreenChangeOldViewController.m; sourceTree = "<group>"; };
+		046C4DDF1B36F66B00440A50 /* ABPadLockScreenChangeOldViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPadLockScreenChangeOldViewControllerDelegate.h; sourceTree = "<group>"; };
+		046C4DE01B36F6C100440A50 /* ABPadLockScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPadLockScreenDelegate.h; sourceTree = "<group>"; };
+		046C4DE11B36F72B00440A50 /* ABPadLockScreenSetupViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPadLockScreenSetupViewControllerDelegate.h; sourceTree = "<group>"; };
+		046C4DE21B36F80200440A50 /* ABPadLockScreenViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPadLockScreenViewControllerDelegate.h; sourceTree = "<group>"; };
 		9C79B0D4188A184A00D465D8 /* ABPadLockScreenDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABPadLockScreenDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C79B0D7188A184A00D465D8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9C79B0D9188A184A00D465D8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -231,6 +235,10 @@
 				9CC50D35188A7C2100DBC969 /* ABPadLockScreenAbstractViewController.m */,
 				046C4DDC1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.h */,
 				046C4DDD1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m */,
+				046C4DDF1B36F66B00440A50 /* ABPadLockScreenChangeOldViewControllerDelegate.h */,
+				046C4DE01B36F6C100440A50 /* ABPadLockScreenDelegate.h */,
+				046C4DE11B36F72B00440A50 /* ABPadLockScreenSetupViewControllerDelegate.h */,
+				046C4DE21B36F80200440A50 /* ABPadLockScreenViewControllerDelegate.h */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
