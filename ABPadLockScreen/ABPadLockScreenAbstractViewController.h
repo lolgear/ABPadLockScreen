@@ -28,10 +28,8 @@
 @class ABPadLockScreenView;
 
 @interface ABPadLockScreenAbstractViewController : UIViewController
-{
-	ABPadLockScreenView* lockScreenView;
-}
 
+@property (strong, nonatomic, readonly) ABPadLockScreenView *lockScreenView;
 @property (nonatomic, strong) NSString *currentPin;
 @property (nonatomic, weak) id<ABPadLockScreenDelegate> delegate;
 @property (nonatomic, readonly, getter = isComplexPin) BOOL complexPin;

@@ -25,8 +25,6 @@
 #import "ABPinSelectionView.h"
 #import <AudioToolbox/AudioToolbox.h>
 
-#define lockScreenView ((ABPadLockScreenView *) [self view])
-
 @interface ABPadLockScreenViewController ()
 
 @property (nonatomic, strong) NSString *lockedOutString;
@@ -52,7 +50,7 @@
         self.delegate = delegate;
         _lockScreenDelegate = delegate;
         _remainingAttempts = -1;
-        
+
         _lockedOutString = NSLocalizedString(@"You have been locked out.", @"");
         _pluralAttemptsLeftString = NSLocalizedString(@"attempts left", @"");
         _singleAttemptLeftString = NSLocalizedString(@"attempt left", @"");
@@ -111,30 +109,30 @@
 {
     _remainingAttempts --;
     _totalAttempts ++;
-    [lockScreenView resetAnimated:YES];
-	[lockScreenView animateFailureNotification];
-    
+    [self.lockScreenView resetAnimated:YES];
+	[self.lockScreenView animateFailureNotification];
+
     if (self.remainingAttempts > 1)
     {
-        [lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%ld %@", (long)self.remainingAttempts, self.pluralAttemptsLeftString]
+        [self.lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%ld %@", (long)self.remainingAttempts, self.pluralAttemptsLeftString]
                                            animated:YES completion:nil];
     }
     else if (self.remainingAttempts == 1)
     {
-        [lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%ld %@", (long)self.remainingAttempts, self.singleAttemptLeftString]
+        [self.lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%ld %@", (long)self.remainingAttempts, self.singleAttemptLeftString]
                                            animated:YES completion:nil];
     }
     else if (self.remainingAttempts == 0)
     {
         [self lockScreen];
     }
-    
+
     if ([self.lockScreenDelegate respondsToSelector:@selector(unlockWasUnsuccessful:afterAttemptNumber:padLockScreenViewController:)])
     {
         [self.lockScreenDelegate unlockWasUnsuccessful:self.currentPin afterAttemptNumber:self.totalAttempts padLockScreenViewController:self];
     }
     self.currentPin = @"";
-    
+
     if (self.errorVibrateEnabled)
     {
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -154,9 +152,9 @@
 #pragma mark - Pin Selection
 - (void)lockScreen
 {
-    [lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%@", self.lockedOutString] animated:YES completion:nil];
-    [lockScreenView lockViewAnimated:YES completion:nil];
-    
+    [self.lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%@", self.lockedOutString] animated:YES completion:nil];
+    [self.lockScreenView lockViewAnimated:YES completion:nil];
+
     if ([self.lockScreenDelegate respondsToSelector:@selector(attemptsExpiredForPadLockScreenViewController:)])
     {
         [self.lockScreenDelegate attemptsExpiredForPadLockScreenViewController:self];

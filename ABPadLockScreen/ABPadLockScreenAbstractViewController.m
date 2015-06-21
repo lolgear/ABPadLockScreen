@@ -25,8 +25,6 @@
 #import "ABPinSelectionView.h"
 #import <AudioToolbox/AudioToolbox.h>
 
-#define lockScreenView ((ABPadLockScreenView *) [self view])
-
 @interface ABPadLockScreenAbstractViewController ()
 
 - (void)setUpButtonMapping;
@@ -38,6 +36,10 @@
 @end
 
 @implementation ABPadLockScreenAbstractViewController
+
+- (ABPadLockScreenView *)lockScreenView {
+    return (ABPadLockScreenView *) [self view];
+}
 
 #pragma mark -
 #pragma mark - init methods
@@ -69,7 +71,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     CGRect bounds = self.view.bounds;
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         if (bounds.size.width > bounds.size.height) {
@@ -79,13 +81,13 @@
             bounds.size.width = width;
         }
     }
-    
+
     self.view = [[ABPadLockScreenView alloc] initWithFrame:bounds complexPin:self.isComplexPin];
-    
+
     [self setUpButtonMapping];
-    [lockScreenView.cancelButton addTarget:self action:@selector(cancelButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
-    [lockScreenView.deleteButton addTarget:self action:@selector(deleteButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
-	[lockScreenView.okButton addTarget:self action:@selector(okButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    [self.lockScreenView.cancelButton addTarget:self action:@selector(cancelButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    [self.lockScreenView.deleteButton addTarget:self action:@selector(deleteButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+	[self.lockScreenView.okButton addTarget:self action:@selector(okButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -93,35 +95,35 @@
     UIUserInterfaceIdiom interfaceIdiom = [[UIDevice currentDevice] userInterfaceIdiom];
     if (interfaceIdiom == UIUserInterfaceIdiomPad) return UIInterfaceOrientationMaskAll;
     if (interfaceIdiom == UIUserInterfaceIdiomPhone) return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
-    
+
     return UIInterfaceOrientationMaskAll;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-	if(lockScreenView.backgroundView != nil)
+	if(self.lockScreenView.backgroundView != nil)
 	{
 		//Background view is shown - need light content status bar.
 		return UIStatusBarStyleLightContent;
 	}
-	
+
 	//Check background color if light or dark.
-	UIColor* color = lockScreenView.backgroundColor;
-	
+	UIColor* color = self.lockScreenView.backgroundColor;
+
 	if(color == nil)
 	{
-		color = lockScreenView.backgroundColor = [UIColor blackColor];
+		color = self.lockScreenView.backgroundColor = [UIColor blackColor];
 	}
-	
+
 	const CGFloat *componentColors = CGColorGetComponents(color.CGColor);
-	
+
 	//Determine brightness
     CGFloat colorBrightness = (CGColorGetNumberOfComponents(color.CGColor) == 2 ?
 							   //Black and white color
 							   componentColors[0] :
 							   //RGB color
 							   ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000);
-    
+
 	if (colorBrightness < 0.5)
     {
         return UIStatusBarStyleLightContent;
@@ -142,35 +144,35 @@
 - (void)setLockScreenTitle:(NSString *)title
 {
     self.title = title;
-    lockScreenView.enterPasscodeLabel.text = title;
+    self.lockScreenView.enterPasscodeLabel.text = title;
 }
 
 - (void)setSubtitleText:(NSString *)text
 {
-    lockScreenView.detailLabel.text = text;
+    self.lockScreenView.detailLabel.text = text;
 }
 
 - (void)setCancelButtonText:(NSString *)text
 {
-    [lockScreenView.cancelButton setTitle:text forState:UIControlStateNormal];
-    [lockScreenView.cancelButton sizeToFit];
+    [self.lockScreenView.cancelButton setTitle:text forState:UIControlStateNormal];
+    [self.lockScreenView.cancelButton sizeToFit];
 }
 
 - (void)setDeleteButtonText:(NSString *)text
 {
-    [lockScreenView.deleteButton setTitle:text forState:UIControlStateNormal];
-    [lockScreenView.deleteButton sizeToFit];
+    [self.lockScreenView.deleteButton setTitle:text forState:UIControlStateNormal];
+    [self.lockScreenView.deleteButton sizeToFit];
 }
 
 - (void)setEnterPasscodeLabelText:(NSString *)text
 {
-    lockScreenView.enterPasscodeLabel.text = text;
+    self.lockScreenView.enterPasscodeLabel.text = text;
 }
 
 - (void)setBackgroundView:(UIView *)backgroundView
 {
-	[lockScreenView setBackgroundView:backgroundView];
-	
+	[self.lockScreenView setBackgroundView:backgroundView];
+
 	if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1)
 	{
 		[self setNeedsStatusBarAppearanceUpdate];
@@ -181,7 +183,7 @@
 #pragma mark - Helper Methods
 - (void)setUpButtonMapping
 {
-    for (UIButton *button in [lockScreenView buttonArray])
+    for (UIButton *button in [self.lockScreenView buttonArray])
     {
         [button addTarget:self action:@selector(buttonSelected:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -189,7 +191,7 @@
 
 - (void)cancelButtonDisabled:(BOOL)disabled
 {
-    lockScreenView.cancelButtonDisabled = disabled;
+    self.lockScreenView.cancelButtonDisabled = disabled;
 }
 
 - (void)processPin
@@ -205,31 +207,31 @@
     {
         return;
     }
-    
+
     self.currentPin = [NSString stringWithFormat:@"%@%ld", self.currentPin, (long)pinNumber];
-    
+
 	if(self.isComplexPin)
 	{
-		[lockScreenView updatePinTextfieldWithLength:self.currentPin.length];
+		[self.lockScreenView updatePinTextfieldWithLength:self.currentPin.length];
 	}
 	else
 	{
 		NSUInteger curSelected = [self.currentPin length] - 1;
-		[lockScreenView.digitsArray[curSelected]  setSelected:YES animated:YES completion:nil];
+		[self.lockScreenView.digitsArray[curSelected]  setSelected:YES animated:YES completion:nil];
     }
-		
+
     if ([self.currentPin length] == 1)
     {
-        [lockScreenView showDeleteButtonAnimated:YES completion:nil];
-		
+        [self.lockScreenView showDeleteButtonAnimated:YES completion:nil];
+
 		if(self.complexPin)
 		{
-			[lockScreenView showOKButton:YES animated:YES completion:nil];
+			[self.lockScreenView showOKButton:YES animated:YES completion:nil];
 		}
     }
     else if (!self.isComplexPin && [self.currentPin length] == SIMPLE_PIN_LENGTH)
     {
-        [lockScreenView.digitsArray.lastObject setSelected:YES animated:YES completion:nil];
+        [self.lockScreenView.digitsArray.lastObject setSelected:YES animated:YES completion:nil];
         [self processPin];
     }
 }
@@ -240,23 +242,23 @@
     {
         return;
     }
-    
+
     self.currentPin = [self.currentPin substringWithRange:NSMakeRange(0, [self.currentPin length] - 1)];
-    
+
 	if(self.isComplexPin)
 	{
-		[lockScreenView updatePinTextfieldWithLength:self.currentPin.length];
+		[self.lockScreenView updatePinTextfieldWithLength:self.currentPin.length];
 	}
 	else
 	{
 		NSUInteger pinToDeselect = [self.currentPin length];
-		[lockScreenView.digitsArray[pinToDeselect] setSelected:NO animated:YES completion:nil];
+		[self.lockScreenView.digitsArray[pinToDeselect] setSelected:NO animated:YES completion:nil];
 	}
-    
+
     if ([self.currentPin length] == 0)
     {
-        [lockScreenView showCancelButtonAnimated:YES completion:nil];
-		[lockScreenView showOKButton:NO animated:YES completion:nil];
+        [self.lockScreenView showCancelButtonAnimated:YES completion:nil];
+		[self.lockScreenView showOKButton:NO animated:YES completion:nil];
     }
 }
 

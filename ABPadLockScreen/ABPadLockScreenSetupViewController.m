@@ -25,8 +25,6 @@
 #import "ABPinSelectionView.h"
 #import <AudioToolbox/AudioToolbox.h>
 
-#define lockScreenView ((ABPadLockScreenView *) [self view])
-
 @interface ABPadLockScreenSetupViewController ()
 
 @property (nonatomic, strong) NSString *enteredPin;
@@ -66,7 +64,7 @@
     {
         _subtitleLabelText = subtitleLabelText;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [lockScreenView updateDetailLabelWithString:_subtitleLabelText animated:NO completion:nil];
+            [self.lockScreenView updateDetailLabelWithString:_subtitleLabelText animated:NO completion:nil];
         });
     }
     return self;
@@ -103,10 +101,10 @@
 {
     self.enteredPin = self.currentPin;
     self.currentPin = @"";
-    [lockScreenView updateDetailLabelWithString:self.pinConfirmationText animated:YES completion:nil];
-    [lockScreenView resetAnimated:YES];
+    [self.lockScreenView updateDetailLabelWithString:self.pinConfirmationText animated:YES completion:nil];
+    [self.lockScreenView resetAnimated:YES];
 }
-         
+
 - (void)validateConfirmedPin
 {
     if ([self.currentPin isEqualToString:self.enteredPin])
@@ -118,12 +116,12 @@
     }
     else
     {
-        [lockScreenView updateDetailLabelWithString:self.pinNotMatchedText animated:YES completion:nil];
-		[lockScreenView animateFailureNotification];
-        [lockScreenView resetAnimated:YES];
+        [self.lockScreenView updateDetailLabelWithString:self.pinNotMatchedText animated:YES completion:nil];
+		[self.lockScreenView animateFailureNotification];
+        [self.lockScreenView resetAnimated:YES];
         self.enteredPin = nil;
         self.currentPin = @"";
-        
+
         // viberate feedback
         if (self.errorVibrateEnabled)
         {
