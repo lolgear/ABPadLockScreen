@@ -14,11 +14,6 @@
 @required
 
 /**
- Called when pin validation is needed
- */
-- (BOOL)padLockScreenViewController:(ABPadLockScreenChangeOldViewController *)padLockScreenViewController validatePin:(NSString*)pin;
-
-/**
  Called when the unlock was completed successfully
  */
 - (void)unlockWasSuccessfulForPadLockScreenViewController:(ABPadLockScreenChangeOldViewController *)padLockScreenViewController;
@@ -41,6 +36,12 @@
 
 
 @optional
+
+/**
+ Called when pin validation is needed
+ */
+- (BOOL)padLockScreenViewController:(ABPadLockScreenChangeOldViewController *)padLockScreenViewController validatePin:(NSString*)pin;
+
 /**
  Called when the user has expired their attempts
  */

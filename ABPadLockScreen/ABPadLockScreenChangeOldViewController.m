@@ -15,12 +15,12 @@
 
 @interface ABPadLockScreenChangeOldViewController () {
     struct {
+        NSUInteger attemptsExpired : 1;
+        NSUInteger pinSet : 1;
         NSUInteger validatePin : 1;
         NSUInteger unlockWasSuccessful : 1;
         NSUInteger unlockWasUnsuccessfulAfterAttemptNumber : 1;
         NSUInteger unlockWasCancelled : 1;
-        NSUInteger attemptsExpired : 1;
-        NSUInteger pinSet : 1;
     }_delegateFlags;
 }
 
@@ -41,15 +41,30 @@
 
 @implementation ABPadLockScreenChangeOldViewController
 
+#pragma mark - 
+#pragma mark - Delegates setup
+
+- (void) setLockScreenDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)lockScreenDelegate {
+    
+    _delegateFlags.attemptsExpired = [lockScreenDelegate respondsToSelector:@selector(attemptsExpiredForPadLockScreenViewController:)] + 0;
+    _delegateFlags.pinSet = [lockScreenDelegate respondsToSelector:@selector(pinSet:padLockScreenSetupViewController:)] + 0;
+    _delegateFlags.validatePin = [lockScreenDelegate respondsToSelector:@selector(padLockScreenViewController:validatePin:)] + 0;
+    _delegateFlags.unlockWasCancelled = [lockScreenDelegate respondsToSelector:@selector(unlockWasCancelledForPadLockScreenViewController:)] + 0;
+    _delegateFlags.unlockWasSuccessful = [lockScreenDelegate respondsToSelector:@selector(unlockWasSuccessfulForPadLockScreenViewController:)] + 0;
+    _delegateFlags.unlockWasUnsuccessfulAfterAttemptNumber = [lockScreenDelegate respondsToSelector:@selector(unlockWasUnsuccessful:afterAttemptNumber:padLockScreenViewController:)] + 0;
+    
+    _lockScreenDelegate = lockScreenDelegate;
+}
+
 #pragma mark -
 #pragma mark - Init Methods
-- (instancetype)initWithDelegate:(id<ABPadLockScreenDelegate>)delegate
+- (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate
 {
     self = [self initWithDelegate:delegate complexPin:NO];
     return self;
 }
 
-- (instancetype)initWithDelegate:(id<ABPadLockScreenDelegate>)delegate complexPin:(BOOL)complexPin
+- (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate complexPin:(BOOL)complexPin
 {
     self = [super initWithComplexPin:complexPin];
     if (self)
@@ -64,7 +79,7 @@
     return self;
 }
 
-- (instancetype)initWithDelegate:(id<ABPadLockScreenDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText
+- (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText
 {
     self = [self initWithDelegate:delegate complexPin:complexPin];
     if (self)
@@ -77,7 +92,7 @@
     return self;
 }
 
-- (instancetype)initWithDelegate:(id<ABPadLockScreenDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText oldPin:(NSString *)oldPin {
+- (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate complexPin:(BOOL)complexPin subtitleLabelText:(NSString *)subtitleLabelText oldPin:(NSString *)oldPin {
     self = [self initWithDelegate:delegate complexPin:complexPin subtitleLabelText:subtitleLabelText];
     
     if (self)
@@ -179,10 +194,20 @@
         [self lockScreen];
     }
     
-//    if ([self.lockScreenDelegate respondsToSelector:@selector(unlockWasUnsuccessful:afterAttemptNumber:padLockScreenViewController:)])
-//    {
-//        [self.lockScreenDelegate unlockWasUnsuccessful:self.currentPin afterAttemptNumber:self.totalAttempts padLockScreenViewController:self];
-//    }
+    if (_delegateFlags.unlockWasUnsuccessfulAfterAttemptNumber)
+    {
+        [self.lockScreenDelegate unlockWasUnsuccessful:self.currentPin afterAttemptNumber:self.totalAttempts padLockScreenViewController:self];
+    }
+}
+
+- (BOOL)isOldPin:(NSString *)oldPin validToPin:(NSString *)enteredOldPin
+{
+    if (_delegateFlags.validatePin) {
+        return [self.lockScreenDelegate padLockScreenViewController:self validatePin:enteredOldPin];
+    }
+    else {
+        return [oldPin isEqualToString:enteredOldPin];
+    }
 }
 
 - (void)validateOldPin
@@ -192,7 +217,7 @@
         self.enteredOldPin = [self.currentPin copy];
     }
     
-    self.oldPinValid = [self.enteredOldPin isEqualToString:self.oldPin];
+    self.oldPinValid = [self isOldPin:self.oldPin validToPin:self.enteredOldPin];
     if (!self.oldPinValid)
     {
         [lockScreenView updateDetailLabelWithString:self.oldPinNotMatchedText animated:YES completion:nil];
@@ -204,6 +229,11 @@
     }
     else {
         [self processFuturePin];
+        
+        if (_delegateFlags.unlockWasSuccessful)
+        {
+            [self.lockScreenDelegate unlockWasSuccessfulForPadLockScreenViewController:self];
+        }
     }
 }
 
@@ -219,10 +249,10 @@
 {
     if ([self.currentPin isEqualToString:self.enteredPin])
     {
-//        if ([self.setupScreenDelegate respondsToSelector:@selector(pinSet:padLockScreenSetupViewController:)])
-//        {
-////            [self.setupScreenDelegate pinSet:self.currentPin padLockScreenSetupViewController:self];
-//        }
+        if (_delegateFlags.pinSet)
+        {
+            [self.lockScreenDelegate pinSet:self.currentPin padLockScreenSetupViewController:self];
+        }
     }
     else
     {
@@ -247,10 +277,10 @@
     [lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%@", self.lockedOutString] animated:YES completion:nil];
     [lockScreenView lockViewAnimated:YES completion:nil];
     
-//    if ([self.lockScreenDelegate respondsToSelector:@selector(attemptsExpiredForPadLockScreenViewController:)])
-//    {
-//        [self.lockScreenDelegate attemptsExpiredForPadLockScreenViewController:self];
-//    }
+    if (_delegateFlags.attemptsExpired)
+    {
+        [self.lockScreenDelegate attemptsExpiredForPadLockScreenViewController:self];
+    }
 }
 
 @end

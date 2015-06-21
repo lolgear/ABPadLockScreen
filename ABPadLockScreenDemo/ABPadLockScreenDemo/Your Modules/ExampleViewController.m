@@ -44,11 +44,11 @@
 #pragma mark - Button Methods
 - (IBAction)setPin:(id)sender
 {
-    ABPadLockScreenSetupViewController *lockScreen =
-//    [[ABPadLockScreenChangeOldViewController alloc] initWithDelegate:self complexPin:NO subtitleLabelText:@"Enter your old pincode" oldPin:@"1234"];
-//    [lockScreen setAllowedAttempts:3];
+    ABPadLockScreenChangeOldViewController *lockScreen =
+    [[ABPadLockScreenChangeOldViewController alloc] initWithDelegate:self complexPin:NO subtitleLabelText:@"Enter your old pincode" oldPin:@"1234"];
+    [lockScreen setAllowedAttempts:3];
 //    [lockScreen setOldPinConfirmationText:@"Enter your old pincode"];
-    [[ABPadLockScreenSetupViewController alloc] initWithDelegate:self complexPin:YES subtitleLabelText:@"You need a PIN to continue"];
+//    [[ABPadLockScreenSetupViewController alloc] initWithDelegate:self complexPin:YES subtitleLabelText:@"You need a PIN to continue"];
     lockScreen.tapSoundEnabled = YES;
     lockScreen.errorVibrateEnabled = YES;
 	
