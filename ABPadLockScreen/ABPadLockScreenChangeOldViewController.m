@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) NSString *oldPin;
 @property (nonatomic, strong) NSString *enteredOldPin;
-@property (nonatomic, strong) NSString *futurePin;
+@property (nonatomic) BOOL oldPinValid;
 @property (nonatomic, strong) NSString *enteredPin;
 
 @property (nonatomic, strong) NSString *lockedOutString;
@@ -120,43 +120,36 @@
 #pragma mark - Pin Processing
 - (void)processPin
 {
-    [self validateOldPin];
-}
 
-- (void)processNewPin {
-    if (!self.futurePin)
-    {
-        [self processFuturePin];
+    if (self.oldPinValid) {
+        [self processNewPin];
     }
     else {
-        if (!self.enteredPin)
-        {
-            [self startPinConfirmation];
-        }
-        else
-        {
-            [self validateConfirmedPin];
-        }
+        [self validateOldPin];
     }
 }
 
+- (void)processNewPin
+{
+    if (!self.enteredPin)
+    {
+        [self startPinConfirmation];
+    }
+    else
+    {
+        [self validateConfirmedPin];
+    }
+}
 
 - (void)processFuturePin
 {
-    self.futurePin = [self.currentPin copy];
     self.currentPin = @"";
     [lockScreenView updateDetailLabelWithString:self.futurePinPromptText animated:YES completion:nil];
     [lockScreenView resetAnimated:YES];
 }
 
-- (void)startOldPinConfirmation {
-    self.enteredOldPin = [self.currentPin copy];
-    self.currentPin = @"";
-    [lockScreenView updateDetailLabelWithString:self.oldPinPromptText animated:YES completion:nil];
-    [lockScreenView resetAnimated:YES];
-}
-
-- (void)processOldPinFailure {
+- (void)processOldPinFailure
+{
     _remainingAttempts --;
     _totalAttempts ++;
     [lockScreenView resetAnimated:YES];
@@ -183,26 +176,15 @@
 //    }
 }
 
-- (void)processFuturePinFailure {
-    self.futurePin = nil;
-    self.currentPin = @"";
-    [lockScreenView updateDetailLabelWithString:self.futurePinPromptText animated:YES completion:nil];
-    [lockScreenView resetAnimated:YES];
-}
-
-- (void)validateOldPin {
+- (void)validateOldPin
+{
     
     if (!self.enteredOldPin) {
         self.enteredOldPin = [self.currentPin copy];
     }
     
-    if ([self.enteredOldPin isEqualToString:self.oldPin])
-    {
-        //
-        // good enough
-        [self processNewPin];
-    }
-    else
+    self.oldPinValid = [self.enteredOldPin isEqualToString:self.oldPin];
+    if (!self.oldPinValid)
     {
         [lockScreenView updateDetailLabelWithString:self.oldPinNotMatchedText animated:YES completion:nil];
         [lockScreenView animateFailureNotification];
@@ -211,11 +193,14 @@
         self.currentPin = @"";
         [self processOldPinFailure];
     }
+    else {
+        [self processFuturePin];
+    }
 }
 
 - (void)startPinConfirmation
 {
-    self.enteredPin = self.currentPin;
+    self.enteredPin = [self.currentPin copy];
     self.currentPin = @"";
     [lockScreenView updateDetailLabelWithString:self.pinConfirmationText animated:YES completion:nil];
     [lockScreenView resetAnimated:YES];
