@@ -68,7 +68,7 @@
     if (self)
     {
         self.delegate = delegate;
-        _lockScreenDelegate = delegate;
+        self.lockScreenDelegate = delegate;
         _remainingAttempts = -1;
         _enteredOldPin = nil;
         _enteredPin = nil;
