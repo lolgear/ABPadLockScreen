@@ -20,20 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-@import UIKit;
-
 /**
  Abstract Class that encapsulates common functionality between the lock and setup screen. It is not designed to be used directly
  */
 
+#import "ABPadLockScreenDelegate.h"
 @class ABPadLockScreenView;
 
 @interface ABPadLockScreenAbstractViewController : UIViewController
-{
-	ABPadLockScreenView* lockScreenView;
-}
 
+@property (strong, nonatomic, readonly) ABPadLockScreenView *lockScreenView;
 @property (nonatomic, strong) NSString *currentPin;
+@property (nonatomic, weak) id<ABPadLockScreenDelegate> delegate;
 @property (nonatomic, readonly, getter = isComplexPin) BOOL complexPin;
 @property (nonatomic, assign) BOOL tapSoundEnabled; //No by Default
 @property (nonatomic, assign) BOOL errorVibrateEnabled; //No by Default

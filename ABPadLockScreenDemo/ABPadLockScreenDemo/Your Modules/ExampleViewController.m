@@ -61,6 +61,20 @@
     [self presentViewController:lockScreen animated:YES completion:nil];
 }
 
+- (IBAction)changePin:(id)sender {
+    if (!self.thePin) {
+        [[[UIAlertView alloc] initWithTitle:@"No Pin" message:@"Please Set a pin before trying to change it" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        return;
+    }
+    
+    ABPadLockScreenChangeOldViewController *changePin = [[ABPadLockScreenChangeOldViewController alloc] initWithDelegate:self complexPin:YES];
+    [changePin setAllowedAttempts:3];
+    changePin.modalPresentationStyle = UIModalPresentationFullScreen;
+    changePin.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+
+    [self presentViewController:changePin animated:YES completion:nil];
+}
+
 - (IBAction)lockApp:(id)sender
 {
     if (!self.thePin)
@@ -96,7 +110,13 @@
 
 - (void)unlockWasSuccessfulForPadLockScreenViewController:(ABPadLockScreenViewController *)padLockScreenViewController
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([padLockScreenViewController isKindOfClass:[ABPadLockScreenChangeOldViewController class]]) {
+        
+    }
+    else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
     NSLog(@"Pin entry successfull");
 }
 
