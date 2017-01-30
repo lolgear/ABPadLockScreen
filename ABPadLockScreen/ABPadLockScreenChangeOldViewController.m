@@ -27,9 +27,9 @@
 @property (nonatomic) BOOL oldPinValid;
 @property (nonatomic, strong) NSString *enteredPin;
 
-@property (nonatomic, strong) NSString *lockedOutString;
-@property (nonatomic, strong) NSString *pluralAttemptsLeftString;
-@property (nonatomic, strong) NSString *singleAttemptLeftString;
+@property (nonatomic, copy) NSString *lockedOutString;
+@property (nonatomic, copy) NSString *pluralAttemptsLeftString;
+@property (nonatomic, copy) NSString *singleAttemptLeftString;
 
 - (void)startPinConfirmation;
 - (void)validateConfirmedPin;
@@ -272,7 +272,7 @@
 #pragma mark - Pin Selection
 - (void)lockScreen
 {
-    [self.lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%@", self.lockedOutString] animated:YES completion:nil];
+    [self.lockScreenView updateDetailLabelWithString:self.lockedOutString animated:YES completion:nil];
     [self.lockScreenView lockViewAnimated:YES completion:nil];
 
     if (_delegateFlags.attemptsExpired)

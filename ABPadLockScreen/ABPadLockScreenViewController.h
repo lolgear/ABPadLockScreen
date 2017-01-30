@@ -26,7 +26,7 @@
  The ABPadLockScreenViewController presents a full screen pin to the user.
  Classess simply need to register as a delegate and implement the ABPadLockScreenViewControllerDelegate Protocol to recieve callbacks
  When a pin has been enteres successfully, unsuccessfully or when the entry has been cancelled.
- 
+
  You are responsible for storing the pin securely (use the keychain or some other form of secure storage, DO NOT STORE IN PLAINTEXT. If you need the user to set a pin, please use ABPadLockScreenSetupViewController
  */
 
@@ -39,11 +39,13 @@
 @property (nonatomic, weak, readonly) id<ABPadLockScreenViewControllerDelegate> lockScreenDelegate;
 @property (nonatomic, assign, readonly) NSInteger totalAttempts;
 @property (nonatomic, assign, readonly) NSInteger remainingAttempts;
+@property (copy, nonatomic, readwrite) NSString *currentLanguageSetting;
 
 - (void)setAllowedAttempts:(NSInteger)allowedAttempts;
 
 - (void)setLockedOutText:(NSString *)title;
 - (void)setPluralAttemptsLeftText:(NSString *)title;
+- (void)setFewAttemptsLeftText:(NSString *)title;
 - (void)setSingleAttemptLeftText:(NSString *)title;
 
 @end

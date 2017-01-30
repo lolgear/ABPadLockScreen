@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		046C4DDE1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046C4DDD1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m */; };
 		046C4DE81B3759E800440A50 /* ABPadLockScreenView+CustomAccessors.m in Sources */ = {isa = PBXBuildFile; fileRef = 046C4DE71B3759E800440A50 /* ABPadLockScreenView+CustomAccessors.m */; };
+		04EBA9151E3F4D1E0025090A /* MorphologyOfFamilyLanguages.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EBA9141E3F4D1E0025090A /* MorphologyOfFamilyLanguages.m */; };
 		9C79B0D8188A184A00D465D8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C79B0D7188A184A00D465D8 /* Foundation.framework */; };
 		9C79B0DA188A184A00D465D8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C79B0D9188A184A00D465D8 /* CoreGraphics.framework */; };
 		9C79B0DC188A184A00D465D8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C79B0DB188A184A00D465D8 /* UIKit.framework */; };
@@ -55,6 +56,8 @@
 		046C4DE21B36F80200440A50 /* ABPadLockScreenViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPadLockScreenViewControllerDelegate.h; sourceTree = "<group>"; };
 		046C4DE61B3759E800440A50 /* ABPadLockScreenView+CustomAccessors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABPadLockScreenView+CustomAccessors.h"; sourceTree = "<group>"; };
 		046C4DE71B3759E800440A50 /* ABPadLockScreenView+CustomAccessors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABPadLockScreenView+CustomAccessors.m"; sourceTree = "<group>"; };
+		04EBA9131E3F4D1E0025090A /* MorphologyOfFamilyLanguages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorphologyOfFamilyLanguages.h; sourceTree = "<group>"; };
+		04EBA9141E3F4D1E0025090A /* MorphologyOfFamilyLanguages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MorphologyOfFamilyLanguages.m; sourceTree = "<group>"; };
 		9C79B0D4188A184A00D465D8 /* ABPadLockScreenDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABPadLockScreenDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C79B0D7188A184A00D465D8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9C79B0D9188A184A00D465D8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -120,6 +123,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04EBA9121E3F4D1E0025090A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				04EBA9131E3F4D1E0025090A /* MorphologyOfFamilyLanguages.h */,
+				04EBA9141E3F4D1E0025090A /* MorphologyOfFamilyLanguages.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		9C79B0CB188A184A00D465D8 = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +210,7 @@
 		9C79B10E188A18AF00D465D8 /* ABPadLockScreen */ = {
 			isa = PBXGroup;
 			children = (
+				04EBA9121E3F4D1E0025090A /* Helpers */,
 				9CC50D31188A797E00DBC969 /* View */,
 				9CC50D30188A797700DBC969 /* Controller */,
 			);
@@ -365,6 +378,7 @@
 				9C79B10C188A18A100D465D8 /* ABPadLockScreenAppDelegate.m in Sources */,
 				9CC50D2B188A797400DBC969 /* ABPadButton.m in Sources */,
 				9CC50D2F188A797400DBC969 /* ABPinSelectionView.m in Sources */,
+				04EBA9151E3F4D1E0025090A /* MorphologyOfFamilyLanguages.m in Sources */,
 				046C4DDE1B36DCD300440A50 /* ABPadLockScreenChangeOldViewController.m in Sources */,
 				9CC50D2E188A797400DBC969 /* ABPadLockScreenViewController.m in Sources */,
 				9C79B0E4188A184A00D465D8 /* main.m in Sources */,

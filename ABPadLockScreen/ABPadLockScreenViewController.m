@@ -23,13 +23,15 @@
 #import "ABPadLockScreenViewController.h"
 #import "ABPadLockScreenView.h"
 #import "ABPinSelectionView.h"
+#import "MorphologyOfFamilyLanguages.h"
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface ABPadLockScreenViewController ()
 
-@property (nonatomic, strong) NSString *lockedOutString;
-@property (nonatomic, strong) NSString *pluralAttemptsLeftString;
-@property (nonatomic, strong) NSString *singleAttemptLeftString;
+@property (nonatomic, copy) NSString *lockedOutString;
+@property (nonatomic, copy) NSString *pluralAttemptsLeftString;
+@property (nonatomic, copy) NSString *fewAttemptsLeftText;
+@property (nonatomic, copy) NSString *singleAttemptLeftString;
 
 - (BOOL)isPinValid:(NSString *)pin;
 
@@ -53,11 +55,20 @@
 
         _lockedOutString = NSLocalizedString(@"You have been locked out.", @"");
         _pluralAttemptsLeftString = NSLocalizedString(@"attempts left", @"");
+        _fewAttemptsLeftText = NSLocalizedString(@"attempts left", @"");
         _singleAttemptLeftString = NSLocalizedString(@"attempt left", @"");
     }
     return self;
 }
 
+
+#pragma mark - Default Language Settings
+- (NSString *)currentLanguageSetting {
+    if (!_currentLanguageSetting) {
+        _currentLanguageSetting = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+    }
+    return _currentLanguageSetting;
+}
 #pragma mark -
 #pragma mark - Attempts
 - (void)setAllowedAttempts:(NSInteger)allowedAttempts
@@ -76,6 +87,11 @@
 - (void)setPluralAttemptsLeftText:(NSString *)title
 {
     _pluralAttemptsLeftString = title;
+}
+
+- (void)setFewAttemptsLeftText:(NSString *)title
+{
+    _fewAttemptsLeftText = title;
 }
 
 - (void)setSingleAttemptLeftText:(NSString *)title
@@ -105,6 +121,15 @@
     }
 }
 
+- (void)updateDetailLabelTitleByRemainingAttempts:(NSNumber *)attempts
+{
+    NSInteger attemptsCount = attempts.integerValue;
+    MorphologyOfFamilyLanguages *morphology = [MorphologyOfFamilyLanguages createWithLanguageSetting:self.currentLanguageSetting];
+    NSString *suffix = [morphology chooseStringCount:attemptsCount betweenMany:self.pluralAttemptsLeftString orFew:self.fewAttemptsLeftText orSingle:self.singleAttemptLeftString];
+    NSString *detailLabelTitle = [NSString stringWithFormat:@"%ld %@", attemptsCount, suffix];
+    [self.lockScreenView updateDetailLabelWithString:detailLabelTitle animated:YES completion:nil];
+}
+
 - (void)processFailure
 {
     _remainingAttempts --;
@@ -112,18 +137,10 @@
     [self.lockScreenView resetAnimated:YES];
 	[self.lockScreenView animateFailureNotification];
 
-    if (self.remainingAttempts > 1)
-    {
-        [self.lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%ld %@", (long)self.remainingAttempts, self.pluralAttemptsLeftString]
-                                           animated:YES completion:nil];
+    if (self.remainingAttempts != 0) {
+        [self updateDetailLabelTitleByRemainingAttempts:@(self.remainingAttempts)];
     }
-    else if (self.remainingAttempts == 1)
-    {
-        [self.lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%ld %@", (long)self.remainingAttempts, self.singleAttemptLeftString]
-                                           animated:YES completion:nil];
-    }
-    else if (self.remainingAttempts == 0)
-    {
+    else {
         [self lockScreen];
     }
 
