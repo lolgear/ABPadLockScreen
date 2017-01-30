@@ -9,6 +9,7 @@
 #import "ABPadLockScreenChangeOldViewController.h"
 #import "ABPadLockScreenView.h"
 #import "ABPinSelectionView.h"
+#import "MorphologyOfFamilyLanguages.h"
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface ABPadLockScreenChangeOldViewController () {
