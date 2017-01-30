@@ -190,7 +190,7 @@
 {
     NSInteger attemptsCount = attempts.integerValue;
     MorphologyOfFamilyLanguages *morphology = [MorphologyOfFamilyLanguages createWithLanguageSetting:self.currentLanguageSetting];
-    NSString *suffix = [morphology chooseStringCount:attemptsCount betweenMany:self.pluralAttemptsLeftString orFew:self.fewAttemptsLeftText orSingle:self.singleAttemptLeftString];
+    NSString *suffix = [morphology chooseStringCount:attemptsCount betweenMany:self.pluralAttemptsLeftString orFew:self.fewAttemptsLeftString orSingle:self.singleAttemptLeftString];
     NSString *detailLabelTitle = [NSString stringWithFormat:@"%ld %@", attemptsCount, suffix];
     [self.lockScreenView updateDetailLabelWithString:detailLabelTitle animated:YES completion:nil];
 }
