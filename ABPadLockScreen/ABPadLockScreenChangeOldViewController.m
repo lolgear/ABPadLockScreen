@@ -29,6 +29,7 @@
 
 @property (nonatomic, copy) NSString *lockedOutString;
 @property (nonatomic, copy) NSString *pluralAttemptsLeftString;
+@property (nonatomic, copy) NSString *fewAttemptsLeftString;
 @property (nonatomic, copy) NSString *singleAttemptLeftString;
 
 - (void)startPinConfirmation;
@@ -100,10 +101,19 @@
     return self;
 }
 
+#pragma mark - Default Language Settings
+- (NSString *)currentLanguageSetting {
+    if (!_currentLanguageSetting) {
+        _currentLanguageSetting = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+    }
+    return _currentLanguageSetting;
+}
+
 - (void)setDefaultTexts
 {
     _lockedOutString = NSLocalizedString(@"You have been locked out.", @"");
     _pluralAttemptsLeftString = NSLocalizedString(@"attempts left", @"");
+    _fewAttemptsLeftString = NSLocalizedString(@"attempts left", @"");
     _singleAttemptLeftString = NSLocalizedString(@"attempt left", @"");
     _futurePinPromptText = NSLocalizedString(@"Enter your future pincode", @"");
 //    _oldPinConfirmationText = NSLocalizedString(@"Enter your old pincode", @"");
@@ -130,6 +140,11 @@
 - (void)setPluralAttemptsLeftText:(NSString *)title
 {
     _pluralAttemptsLeftString = title;
+}
+
+- (void)setFewAttemptsLeftString:(NSString *)title
+{
+    _fewAttemptsLeftString = title;
 }
 
 - (void)setSingleAttemptLeftText:(NSString *)title
@@ -170,6 +185,15 @@
     [self.lockScreenView resetAnimated:YES];
 }
 
+- (void)updateDetailLabelTitleByRemainingAttempts:(NSNumber *)attempts
+{
+    NSInteger attemptsCount = attempts.integerValue;
+    MorphologyOfFamilyLanguages *morphology = [MorphologyOfFamilyLanguages createWithLanguageSetting:self.currentLanguageSetting];
+    NSString *suffix = [morphology chooseStringCount:attemptsCount betweenMany:self.pluralAttemptsLeftString orFew:self.fewAttemptsLeftText orSingle:self.singleAttemptLeftString];
+    NSString *detailLabelTitle = [NSString stringWithFormat:@"%ld %@", attemptsCount, suffix];
+    [self.lockScreenView updateDetailLabelWithString:detailLabelTitle animated:YES completion:nil];
+}
+
 - (void)processOldPinFailure
 {
     _remainingAttempts --;
@@ -177,20 +201,13 @@
     [self.lockScreenView resetAnimated:YES];
     [self.lockScreenView animateFailureNotification];
 
-    if (self.remainingAttempts > 1)
-    {
-        [self.lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%ld %@", (long)self.remainingAttempts, self.pluralAttemptsLeftString]
-                                           animated:YES completion:nil];
+    if (self.remainingAttempts != 0) {
+        [self updateDetailLabelTitleByRemainingAttempts:@(self.remainingAttempts)];
     }
-    else if (self.remainingAttempts == 1)
-    {
-        [self.lockScreenView updateDetailLabelWithString:[NSString stringWithFormat:@"%ld %@", (long)self.remainingAttempts, self.singleAttemptLeftString]
-                                           animated:YES completion:nil];
-    }
-    else if (self.remainingAttempts == 0)
-    {
+    else {
         [self lockScreen];
     }
+
 
     if (_delegateFlags.unlockWasUnsuccessfulAfterAttemptNumber)
     {

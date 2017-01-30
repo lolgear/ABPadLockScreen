@@ -20,11 +20,13 @@
 
 @property (nonatomic, assign, readonly) NSInteger totalAttempts;
 @property (nonatomic, assign, readonly) NSInteger remainingAttempts;
+@property (copy, nonatomic, readwrite) NSString *currentLanguageSetting;
 
 - (void)setAllowedAttempts:(NSInteger)allowedAttempts;
 
 - (void)setLockedOutText:(NSString *)title;
 - (void)setPluralAttemptsLeftText:(NSString *)title;
+- (void)setFewAttemptsLeftText:(NSString *)title;
 - (void)setSingleAttemptLeftText:(NSString *)title;
 
 - (instancetype)initWithDelegate:(id<ABPadLockScreenChangeOldViewControllerDelegate>)delegate;
