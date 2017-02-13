@@ -143,7 +143,7 @@
     _pluralAttemptsLeftString = title;
 }
 
-- (void)setFewAttemptsLeftString:(NSString *)title
+- (void)setFewAttemptsLeftText:(NSString *)title
 {
     _fewAttemptsLeftString = title;
 }
