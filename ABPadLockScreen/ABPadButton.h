@@ -30,6 +30,7 @@
 
 @property (nonatomic, strong, readonly) UILabel *numberLabel;
 @property (nonatomic, strong, readonly) UILabel *lettersLabel;
+@property (nonatomic, assign, readwrite) BOOL hideLetters;
 
 @property (nonatomic, strong) UIColor *borderColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *selectedColor UI_APPEARANCE_SELECTOR;

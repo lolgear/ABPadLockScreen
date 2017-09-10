@@ -130,7 +130,7 @@
     [self addSubview:self.numberLabel];
 	
 //	if(self.tag == 0)// incorrect
-    if(self.lettersLabel.text)
+    if(self.lettersLabel.text || self.lettersLabel.hidden)
 	{
 		CGPoint center = self.numberLabel.center;
 		center.y = self.bounds.size.height / 2 - 1;
@@ -186,6 +186,14 @@
 	label.minimumScaleFactor = 1.0;
     
     return label;
+}
+
+- (BOOL)hideLetters {
+    return self.lettersLabel.hidden;
+}
+
+- (void)setHideLetters:(BOOL)hideLetters {
+    self.lettersLabel.hidden = hideLetters;
 }
 
 @end

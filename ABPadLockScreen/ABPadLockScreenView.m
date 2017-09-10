@@ -589,7 +589,9 @@
 - (void)setHideButtonsLetters:(BOOL)hideButtonsLetters {
     _hideButtonsLetters = hideButtonsLetters;
     if (hideButtonsLetters) {
-        [self.enhancementView setupInputButtonsWithHiddenLetters:hideButtonsLetters];
+        for (ABPadButton *view in [self.enhancementView buttonArray]) {
+            view.hideLetters = hideButtonsLetters;
+        }
     }
 }
 - (void)setHideButtonsBorders:(BOOL)hideButtonsBorders {
