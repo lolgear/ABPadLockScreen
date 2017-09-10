@@ -28,6 +28,10 @@
 #define IS_IPHONE5 ([UIScreen mainScreen].bounds.size.height==568)
 #define IS_IOS6_OR_LOWER (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
 
+@interface ABPadLockScreenView__Design ()
+@property (weak, nonatomic, readwrite) ABPadLockScreenView *enhancementView;
+@end
+
 @interface ABPadLockScreenView()
 
 @property (nonatomic, assign) BOOL requiresRotationCorrection;
@@ -48,9 +52,27 @@
 
 @end
 
+@implementation ABPadLockScreenView (RoundedViewStyle)
+- (void)setRoundedView:(UIView *)roundedView toDiameter:(CGFloat)newSize;
+{
+    CGRect newFrame = CGRectMake(roundedView.frame.origin.x, roundedView.frame.origin.y, newSize, newSize);
+    roundedView.frame = newFrame;
+    roundedView.clipsToBounds = YES;
+    roundedView.layer.cornerRadius = newSize * self.design.inputButtonsCornerRadiusFraction;
+}
+@end
+
 @implementation ABPadLockScreenView
 
 @synthesize digitsArray = _digitsArray;
+
+- (ABPadLockScreenView__Design *)design {
+    if (!_design) {
+        _design = [ABPadLockScreenView__Design new];
+        _design.enhancementView = self;
+    }
+    return _design;
+}
 
 #pragma mark -
 #pragma mark - Init Methods
@@ -75,6 +97,19 @@
     return self;
 }
 
+- (void)setupInputButtonsWithHiddenLetters:(BOOL)hiddenLetters {
+    _buttonOne = [[ABPadButton alloc] initWithFrame:CGRectZero number:1 letters:nil];
+    _buttonTwo = [[ABPadButton alloc] initWithFrame:CGRectZero number:2 letters:hiddenLetters ? nil : @"ABC"];
+    _buttonThree = [[ABPadButton alloc] initWithFrame:CGRectZero number:3 letters:hiddenLetters ? nil : @"DEF"];
+    _buttonFour = [[ABPadButton alloc] initWithFrame:CGRectZero number:4 letters:hiddenLetters ? nil : @"GHI"];
+    _buttonFive = [[ABPadButton alloc] initWithFrame:CGRectZero number:5 letters:hiddenLetters ? nil : @"JKL"];
+    _buttonSix = [[ABPadButton alloc] initWithFrame:CGRectZero number:6 letters:hiddenLetters ? nil : @"MNO"];
+    _buttonSeven = [[ABPadButton alloc] initWithFrame:CGRectZero number:7 letters:hiddenLetters ? nil : @"PQRS"];
+    _buttonEight = [[ABPadButton alloc] initWithFrame:CGRectZero number:8 letters:hiddenLetters ? nil : @"TUV"];
+    _buttonNine = [[ABPadButton alloc] initWithFrame:CGRectZero number:9 letters:hiddenLetters ? nil : @"WXYZ"];
+    _buttonZero = [[ABPadButton alloc] initWithFrame:CGRectZero number:0 letters:nil];
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -94,20 +129,7 @@
         
         _detailLabel = [self standardLabel];
         
-        _buttonOne = [[ABPadButton alloc] initWithFrame:CGRectZero number:1 letters:nil];
-        _buttonTwo = [[ABPadButton alloc] initWithFrame:CGRectZero number:2 letters:@"ABC"];
-        _buttonThree = [[ABPadButton alloc] initWithFrame:CGRectZero number:3 letters:@"DEF"];
-        
-        _buttonFour = [[ABPadButton alloc] initWithFrame:CGRectZero number:4 letters:@"GHI"];
-        _buttonFive = [[ABPadButton alloc] initWithFrame:CGRectZero number:5 letters:@"JKL"];
-        _buttonSix = [[ABPadButton alloc] initWithFrame:CGRectZero number:6 letters:@"MNO"];
-        
-        _buttonSeven = [[ABPadButton alloc] initWithFrame:CGRectZero number:7 letters:@"PQRS"];
-        _buttonEight = [[ABPadButton alloc] initWithFrame:CGRectZero number:8 letters:@"TUV"];
-        _buttonNine = [[ABPadButton alloc] initWithFrame:CGRectZero number:9 letters:@"WXYZ"];
-        
-        _buttonZero = [[ABPadButton alloc] initWithFrame:CGRectZero number:0 letters:nil];
-        
+        [self setupInputButtonsWithHiddenLetters:NO];
 		UIButtonType buttonType = UIButtonTypeSystem;
 		if(NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1)
 		{
@@ -554,12 +576,28 @@
     return label;
 }
 
-- (void)setRoundedView:(UIView *)roundedView toDiameter:(CGFloat)newSize;
-{
-    CGRect newFrame = CGRectMake(roundedView.frame.origin.x, roundedView.frame.origin.y, newSize, newSize);
-    roundedView.frame = newFrame;
-    roundedView.clipsToBounds = YES;
-    roundedView.layer.cornerRadius = newSize / 2.0;
+@end
+
+@implementation ABPadLockScreenView__Design
+- (instancetype)init {
+    self = [super init];
+    self.inputButtonsCornerRadiusFraction = 0.5f;
+    self.hideButtonsLetters = NO;
+    return self;
 }
 
+- (void)setHideButtonsLetters:(BOOL)hideButtonsLetters {
+    _hideButtonsLetters = hideButtonsLetters;
+    if (hideButtonsLetters) {
+        [self.enhancementView setupInputButtonsWithHiddenLetters:hideButtonsLetters];
+    }
+}
+- (void)setHideButtonsBorders:(BOOL)hideButtonsBorders {
+    _hideButtonsBorders = hideButtonsBorders;
+    if (hideButtonsBorders) {
+        for (UIView *view in [self.enhancementView buttonArray]) {
+            view.layer.borderWidth = 0.0f;
+        }
+    }
+}
 @end

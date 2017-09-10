@@ -24,6 +24,11 @@
 
 @class ABPinSelectionView;
 
+@interface ABPadLockScreenView__Design : NSObject
+@property (nonatomic, assign, readwrite) CGFloat inputButtonsCornerRadiusFraction; // default is 0.5
+@property (nonatomic, assign, readwrite) BOOL hideButtonsLetters;
+@property (nonatomic, assign, readwrite) BOOL hideButtonsBorders;
+@end
 @interface ABPadLockScreenView : UIView
 
 @property (nonatomic, strong) UIFont *enterPasscodeLabelFont UI_APPEARANCE_SELECTOR;
@@ -57,6 +62,8 @@
 
 @property (nonatomic, strong, readonly) UIButton *okButton;
 
+// Design
+@property (nonatomic, strong, readwrite) ABPadLockScreenView__Design *design;
 /*
  Lazy loaded array that returns all the buttons ordered from 0-9
  */
@@ -84,4 +91,8 @@
 
 - (id)initWithFrame:(CGRect)frame complexPin:(BOOL)complexPin;
 
+@end
+
+@interface ABPadLockScreenView (RoundedViewStyle)
+- (void)setRoundedView:(UIView *)roundedView toDiameter:(CGFloat)newSize;
 @end

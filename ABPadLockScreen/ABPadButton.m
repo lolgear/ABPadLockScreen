@@ -129,7 +129,8 @@
     self.numberLabel.frame = CGRectMake(0, self.frame.size.height / 5, self.frame.size.width, self.frame.size.height/2.5);
     [self addSubview:self.numberLabel];
 	
-	if(self.tag == 0)
+//	if(self.tag == 0)// incorrect
+    if(self.lettersLabel.text)
 	{
 		CGPoint center = self.numberLabel.center;
 		center.y = self.bounds.size.height / 2 - 1;
